@@ -195,4 +195,31 @@ public class SqliteTools
             }
         });
     }
+
+    public static async Task DeleteFromTable<T>(string path, string filter = "")
+    {
+        await Task.Run(() =>
+        {
+            try
+            {
+                SqliteConnection dbconn = new SqliteConnection("URI=file:" + path);
+                dbconn.Open();
+                SqliteCommand dbcmd = dbconn.CreateCommand();
+                var tablename = typeof(T).Name;
+                string sqlQuery = "DELETE FROM " + tablename;
+                if (filter != "")
+                {
+                    sqlQuery += " WHERE " + filter;
+                }
+                dbcmd.CommandText = sqlQuery;
+                dbcmd.ExecuteNonQuery();
+                dbcmd.Dispose();
+                dbconn.Close();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError(e);
+            }
+        });
+    }
 }

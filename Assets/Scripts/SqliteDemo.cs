@@ -64,13 +64,14 @@ public class SqliteDemo : MonoBehaviour
            new Person(){id = 3, name = "王五", age = 22},
            new Person(){id = 4, name = "赵六", age = 24},
            new Person(){id = 5, name = "田七", age = 26},
-        });
+            });
             list = await SqliteTools.ReadTable<Person>(Application.streamingAssetsPath + "/test2.db");
-            Log("\nlist count = " + list.Count);
-            foreach (var item in list)
-            {
-                Log("id = " + item.id + " name = " + item.name + " age = " + item.age);
-            }
+
+        }
+        Log("\nlist count = " + list.Count);
+        foreach (var item in list)
+        {
+            Log("id = " + item.id + " name = " + item.name + " age = " + item.age);
         }
 
         list = await SqliteTools.ReadTable<Person>(Application.streamingAssetsPath + "/test2.db", "age > 20");
@@ -79,6 +80,13 @@ public class SqliteDemo : MonoBehaviour
         {
             Log("id = " + item.id + " name = " + item.name + " age = " + item.age);
         }
+
+        //插入一项
+        await SqliteTools.WriteTable(
+            Application.streamingAssetsPath + "/test2.db",
+            new List<Person>() { new Person() { id = 6, name = "王八", age = 28 } });
+        //删除插入的项
+        await SqliteTools.DeleteFromTable<Person>(Application.streamingAssetsPath + "/test2.db", "id = 6");
     }
 
     void InsertData(string path)
