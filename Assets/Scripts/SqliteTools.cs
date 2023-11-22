@@ -10,10 +10,10 @@ public class SqliteTools
     {
         get
         {
-            #if UNITY_ANDROID
-            return Application.persistentDataPath;
+            #if UNITY_ANDROID || UNITY_IOS
+                return Application.persistentDataPath;
             #else
-            return Application.streamingAssetsPath;
+                return Application.streamingAssetsPath;
             #endif
             
         }
