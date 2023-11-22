@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mono.Data.Sqlite;
@@ -5,6 +6,18 @@ using UnityEngine;
 
 public class SqliteTools
 {
+    public static string DataPath
+    {
+        get
+        {
+            #if UNITY_ANDROID
+            return Application.persistentDataPath;
+            #else
+            return Application.streamingAssetsPath;
+            #endif
+            
+        }
+    }
     public static async Task CreateDB<T>(string path)
     {
         await Task.Run(() =>
@@ -88,42 +101,7 @@ public class SqliteTools
                     }
                     dbcmd.ExecuteNonQuery();
                 }
-                // string sqlQuery = "INSERT INTO " + tablename + " (";
-                // for (int i = 0; i < fields.Length; i++)
-                // {
-                //     var field = fields[i];
-                //     sqlQuery += field.Name + ",";
-                // }
-                // sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
-                // sqlQuery += ") VALUES ";
-                // var values = "";
-                // foreach (var data in dataList)
-                // {
-                //     values += "(";
-                //     for (int i = 0; i < fields.Length; i++)
-                //     {
-                //         var field = fields[i];
-                //         values += "@" + field.Name + ",";
-                //     }
-                //     values = values.Substring(0, values.Length - 1);
-                //     values += "),";
-                // }
-                // values = values.Substring(0, values.Length - 1);
-                // sqlQuery += values;
-
-                // Debug.Log(sqlQuery);
-
-                // dbcmd.CommandText = sqlQuery;
-                // foreach (var data in dataList)
-                // {
-                //     for (int i = 0; i < fields.Length; i++)
-                //     {
-                //         var field = fields[i];
-                //         dbcmd.Parameters.AddWithValue("@" + field.Name, field.GetValue(data));
-                //         Debug.Log("@" + field.Name + " = " + field.GetValue(data));
-                //     }
-                // }
-                // dbcmd.ExecuteNonQuery();
+                
                 dbcmd.Dispose();
                 dbconn.Close();
             }

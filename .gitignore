@@ -9,3 +9,6 @@
 /.vscode
 /*.sln
 /Assets/StreamingAssets
+*.apk
+.DS_Store
+4_BurstDebugInformation_DoNotShip/tempburstlibs/armeabi-v7a/lib_burst_generated.txt
